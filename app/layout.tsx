@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import SiteNav from "@/components/SiteNav";
 import "./globals.css";
 
 const siteUrl =
@@ -22,18 +23,14 @@ export default function RootLayout({
     <html lang="en">
       <body className="min-h-screen antialiased">
         <header className="border-b border-neutral-200">
-          <div className="mx-auto flex max-w-5xl items-center justify-between px-6 py-4">
-            <Link href="/" className="text-sm font-semibold tracking-tight">
+          <div className="mx-auto flex max-w-5xl flex-wrap items-center justify-between gap-3 px-6 py-4">
+            <Link
+              href="/"
+              className="text-sm font-semibold tracking-tight"
+            >
               nextjs-headless
             </Link>
-            <nav className="flex gap-6 text-sm text-neutral-600">
-              <Link href="/" className="hover:text-neutral-900">
-                Posts
-              </Link>
-              <Link href="/about" className="hover:text-neutral-900">
-                About
-              </Link>
-            </nav>
+            <SiteNav />
           </div>
         </header>
 

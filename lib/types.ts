@@ -60,3 +60,10 @@ export type WPPage = Omit<
 > & {
  excerpt?: { rendered: string; protected: boolean };
 };
+
+export type WPNavPage = {
+  id: number;
+  slug: string;
+  title: { rendered: string };
+  menu_order?: number;
+};

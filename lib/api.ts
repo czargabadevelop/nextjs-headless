@@ -1,5 +1,5 @@
 import { wordpressUrl, wpFetch, WordPressError } from "./wordpress";
-import type { WPAuthor, WPPage, WPPost, WPTerm } from "./types";
+import type { WPAuthor, WPNavPage, WPPage, WPPost, WPTerm } from "./types";
 
 type QueryParams = Record<string, string | number | boolean | undefined>;
 
@@ -86,6 +86,19 @@ export async function getCategories(): Promise<WPTerm[]> {
     revalidate: 300,
     tags: ["wordpress", "categories"],
   });
+}
+
+export async function getNavPages(): Promise<WPNavPage[]> {
+  return wpFetch<WPNavPage[]>(
+    `/wp/v2/pages${qs({
+      parent: 0,
+      orderby: "menu_order",
+      order: "asc",
+      per_page: 20,
+      _fields: "id,slug,title,menu_order",
+    })}`,
+    { revalidate: 300, tags: ["wordpress", "pages", "nav"] },
+  );
 }
 
 export async function getAuthor(id: number): Promise<WPAuthor | null> {

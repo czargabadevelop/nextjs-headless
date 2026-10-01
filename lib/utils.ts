@@ -24,3 +24,27 @@ export function plainExcerpt(post: WPPost): string {
   const raw = post.excerpt.rendered.replace(/<[^>]*>/g, "").trim();
   return raw;
 }
+
+const NAMED_ENTITIES: Record<string, string> = {
+  amp: "&",
+  lt: "<",
+  gt: ">",
+  quot: '"',
+  apos: "'",
+  nbsp: " ",
+};
+
+export function decodeEntities(value: string): string {
+  return value.replace(/&(#x?[0-9a-f]+|[a-z]+);/gi, (match, entity: string) => {
+    if (entity.startsWith("#")) {
+      const isHex = entity[1]?.toLowerCase() === "x";
+      const code = Number.parseInt(
+        isHex ? entity.slice(2) : entity.slice(1),
+        isHex ? 16 : 10,
+      );
+      return Number.isNaN(code) ? match : String.fromCodePoint(code);
+    }
+
+    return NAMED_ENTITIES[entity.toLowerCase()] ?? match;
+  });
+}
